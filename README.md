@@ -50,3 +50,6 @@ changes to the repository.
 
 Over time, your fork may become out of sync with the master branch of the Upstream repository. Create a pull request on your fork to pull in the latest changes from the master branch of the Upstream repository to get your fork back up-to-date. This can be performed directly on the github website.
 
+## Resources/references
+
+- The SPARC dataset template in the ./resources/DatasetTemplate/ folder is retrieved from [this repository](https://github.com/LIN810116/sparc-curation/tree/master/resources/DatasetTemplate).
