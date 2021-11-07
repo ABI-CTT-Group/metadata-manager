@@ -1,16 +1,6 @@
-# Instructions for using this template
+# physiome-metadata
 
-1. Can create an empty repository for your new project e.g. on github.
-2. Clone it to your local hdd.
-3. Download the code in this repository as a zip file (ie don't clone the code, use the code download button e.g. on github click the green button and select the download option. This will will zip the entire repository with only the latest source files). 
-4. Extract the zip into your cloned repository.
-5. Commit the extracted files to your new repository.
-
-DELETE THIS LINE AND ALL TEXT ABOVE 
-
-# Your repository name
-
-Python module for ...
+Python module for generating and managing metadata in the [SPARC Dataset structure](https://sparc.science/help/3FXikFXC8shPRd8xZqhjVT).
 See the documentation for more information.
 
 ## Dependencies
