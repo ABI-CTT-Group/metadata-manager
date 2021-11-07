@@ -8,6 +8,12 @@ See the documentation for more information.
 See requirements.txt for python dependencies.
 The python module named parameterized is used for testing.
 
+### Install dependencies
+
+```
+pip install -r requirements.txt
+```
+
 ## Accessing documentation
 
 The documentation is hosted on Readthedocs - add link
