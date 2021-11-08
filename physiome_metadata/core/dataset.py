@@ -138,3 +138,25 @@ class Dataset(object):
                 filename = Path(value).name
                 file_path = Path.joinpath(save_dir, filename)
                 shutil.copyfile(value, file_path)
+
+    def load_metadata(self, path):
+        """
+        Load & update a single metadata
+        :param path: path to the metadata file
+        :type path: string
+        :return: metadata
+        :rtype: Pandas.DataFrame
+        """
+        path = Path(path)
+        try:
+            metadata = pd.read_excel(path)
+        except XLRDError:
+            metadata = pd.read_excel(path, engine='openpyxl')
+
+        filename = path.name
+        self._dataset[filename] = {
+            "path": path,
+            "metadata": metadata
+        }
+
+        return metadata
