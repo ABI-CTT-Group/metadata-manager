@@ -106,3 +106,35 @@ class Dataset(object):
             self._dataset[key] = value
 
         return self._dataset
+
+    def save_dataset(self, save_dir):
+        """
+        Save dataset
+        :param save_dir: path to the dest dir
+        :type save_dir: string
+        """
+        if not self._dataset:
+            msg = "Dataset not defined. Please load the dataset or the template dataset in advance."
+            raise ValueError(msg)
+
+        save_dir = Path(save_dir)
+        if not save_dir.is_dir():
+            save_dir.mkdir()
+
+        for key, value in self._dataset.items():
+            if isinstance(value, dict):
+                file_path = Path(value.get("path"))
+                filename = file_path.name
+                data = value.get("metadata")
+                if isinstance(data, pd.DataFrame):
+                    data.to_csv(Path.joinpath(save_dir, filename))
+
+            elif Path(value).is_dir():
+                dir_name = Path(value).name
+                dir_path = Path.joinpath(save_dir, dir_name)
+                shutil.copytree(value, dir_path)
+
+            elif Path(value).is_file():
+                filename = Path(value).name
+                file_path = Path.joinpath(save_dir, filename)
+                shutil.copyfile(value, file_path)
