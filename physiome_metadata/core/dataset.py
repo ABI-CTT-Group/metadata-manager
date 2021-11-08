@@ -218,3 +218,28 @@ class Dataset(object):
 
         return categories
 
+    def list_fields(self, category, axis=0):
+        """
+        List field from a metadata file
+        :param category: metadata category
+        :type category: string
+        :param axis: If 0, list by the first row. If 1, list by the first column
+        :type axis: int
+        :return: a list of fields
+        :rtype: list
+        """
+        fields = None
+
+        if not self._template:
+            self.load_template()
+
+        data = self._template.get(category)
+        metadata = data.get("metadata")
+        if axis == 0:
+            fields = list(metadata.index)
+        elif axis == 1:
+            fields = list(metadata.columns)
+
+        return fields
+
+
