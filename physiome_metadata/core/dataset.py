@@ -175,7 +175,7 @@ class Dataset(object):
         except XLRDError:
             metadata = pd.read_excel(path, index_col=[0], engine='openpyxl')
 
-        filename = path.name
+        filename = path.stem
         self._dataset[filename] = {
             "path": path,
             "metadata": metadata
