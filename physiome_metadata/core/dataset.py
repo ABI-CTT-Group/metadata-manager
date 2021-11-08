@@ -11,6 +11,7 @@ class Dataset(object):
         self._current_path = Path(__file__).parent.resolve()
         self._resources_path = Path.joinpath(self._current_path, "../resources")
         self._template_dir = Path()
+        self._template = dict()
 
         self._dataset_path = Path()
         self._dataset = dict()
@@ -53,6 +54,37 @@ class Dataset(object):
 
         self._template_dir = template_dir
 
+    def load(self, dir_path):
+        """
+        Load the input dataset into a dictionary
+        :param dir_path: path to the dataset dictionary
+        :type dir_path: string
+        :return: loaded dataset
+        :rtype: dict
+        """
+        dataset = dict()
+
+        dir_path = Path(dir_path)
+        for path in dir_path.iterdir():
+            if path.suffix in self._metadata_extensions:
+                try:
+                    metadata = pd.read_excel(path)
+                except XLRDError:
+                    metadata = pd.read_excel(path, engine='openpyxl')
+
+                key = path.stem
+                value = {
+                    "path": path,
+                    "metadata": metadata
+                }
+            else:
+                key = path.name
+                value = path
+
+            dataset[key] = value
+
+        return dataset
+
     def load_template(self, version=None):
         """
         Load dataset from template
@@ -62,8 +94,9 @@ class Dataset(object):
         :rtype: dict
         """
         self.set_template(version)
-        dataset = self.load_dataset(self._template_dir)
-        return dataset
+        self._template = self.load(self._template_dir)
+
+        return self._template
 
     def save_template(self, save_dir, version=None):
         """
@@ -86,24 +119,7 @@ class Dataset(object):
         :return: loaded dataset
         :rtype: dict
         """
-        dataset_path = Path(dataset_path)
-        for path in dataset_path.iterdir():
-            if path.suffix in self._metadata_extensions:
-                try:
-                    metadata = pd.read_excel(path)
-                except XLRDError:
-                    metadata = pd.read_excel(path, engine='openpyxl')
-
-                key = path.stem
-                value = {
-                    "path": path,
-                    "metadata": metadata
-                }
-            else:
-                key = path.name
-                value = path
-
-            self._dataset[key] = value
+        self._dataset = self.load(dataset_path)
 
         return self._dataset
 
