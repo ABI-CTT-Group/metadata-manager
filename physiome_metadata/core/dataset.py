@@ -68,9 +68,9 @@ class Dataset(object):
         for path in dir_path.iterdir():
             if path.suffix in self._metadata_extensions:
                 try:
-                    metadata = pd.read_excel(path)
+                    metadata = pd.read_excel(path, index_col=[0])
                 except XLRDError:
-                    metadata = pd.read_excel(path, engine='openpyxl')
+                    metadata = pd.read_excel(path, index_col=[0], engine='openpyxl')
 
                 key = path.stem
                 value = {
@@ -171,9 +171,9 @@ class Dataset(object):
         """
         path = Path(path)
         try:
-            metadata = pd.read_excel(path)
+            metadata = pd.read_excel(path, index_col=[0])
         except XLRDError:
-            metadata = pd.read_excel(path, engine='openpyxl')
+            metadata = pd.read_excel(path, index_col=[0], engine='openpyxl')
 
         filename = path.name
         self._dataset[filename] = {
