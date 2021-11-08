@@ -87,7 +87,7 @@ class Dataset(object):
 
     def load_template(self, version=None):
         """
-        Load dataset from template
+        Load template
         :param version: template version
         :type version: string
         :return: loaded dataset
