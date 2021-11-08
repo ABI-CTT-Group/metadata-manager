@@ -279,4 +279,25 @@ class Dataset(object):
 
         return self._dataset
 
+    def append(self, category, row):
+        """
+        Append a row to a metadata file
+        :param category: metadata category
+        :type category: string
+        :param row: a row to be appended
+        :type row: dic
+        :return: updated dataset
+        :rtype: dict
+        """
+        if not self._dataset:
+            msg = "Dataset not defined. Please load the dataset in advance."
+            raise ValueError(msg)
+
+        metadata = self._dataset.get(category).get("metadata")
+        metadata = metadata.append(row, ignore_index=True)
+
+        self._dataset[category]["metadata"] = metadata
+
+        return self._dataset
+
 
