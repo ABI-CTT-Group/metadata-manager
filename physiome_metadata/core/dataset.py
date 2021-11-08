@@ -1,6 +1,9 @@
 import shutil
 from pathlib import Path
 
+import pandas as pd
+from xlrd import XLRDError
+
 
 class Dataset(object):
     def __init__(self):
@@ -9,7 +12,19 @@ class Dataset(object):
         self._resources_path = Path.joinpath(self._current_path, "../resources")
         self._template_dir = Path()
 
+        self._dataset_path = Path()
+        self._dataset = dict()
+        self._metadata_extensions = [".xlsx"]
+
         self.set_template()
+
+    def set_dataset_path(self, path):
+        """
+        Set the path to the dataset
+        :param path: path to the dataset directory
+        :type path: string
+        """
+        self._dataset_path = Path(path)
 
     def set_template_version(self, version):
         """
@@ -38,6 +53,18 @@ class Dataset(object):
 
         self._template_dir = template_dir
 
+    def load_template(self, version=None):
+        """
+        Load dataset from template
+        :param version: template version
+        :type version: string
+        :return: loaded dataset
+        :rtype: dict
+        """
+        self.set_template(version)
+        dataset = self.load_dataset(self._template_dir)
+        return dataset
+
     def save_template(self, save_dir, version=None):
         """
         Save the template directory locally
@@ -50,3 +77,32 @@ class Dataset(object):
             self.set_template(version)
 
         shutil.copytree(self._template_dir, save_dir)
+
+    def load_dataset(self, dataset_path):
+        """
+        Load the input dataset into a dictionary
+        :param dataset_path: path to the dataset
+        :type dataset_path: string
+        :return: loaded dataset
+        :rtype: dict
+        """
+        dataset_path = Path(dataset_path)
+        for path in dataset_path.iterdir():
+            if path.suffix in self._metadata_extensions:
+                try:
+                    metadata = pd.read_excel(path, index_col=[0])
+                except XLRDError:
+                    metadata = pd.read_excel(path, engine='openpyxl')
+
+                key = path.stem
+                value = {
+                    "path": path,
+                    "metadata": metadata
+                }
+            else:
+                key = path.name
+                value = path
+
+            self._dataset[key] = value
+
+        return self._dataset
