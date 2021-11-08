@@ -198,3 +198,23 @@ class Dataset(object):
             metadata = metadata.dropna(subset=["Value"])
 
         return metadata
+
+    def list_categories(self):
+        """
+        list all categories based on the metadata files in the template dataset
+        :return: all metadata categories
+        :rtype: list
+        """
+        categories = list()
+
+        if not self._template:
+            self.load_template()
+
+        for key, value in self._template.items():
+            if isinstance(value, dict):
+                file_path = Path(value.get("path"))
+                category = file_path.stem
+                categories.append(category)
+
+        return categories
+
