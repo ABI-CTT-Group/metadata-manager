@@ -127,7 +127,7 @@ class Dataset(object):
                 filename = file_path.name
                 data = value.get("metadata")
                 if isinstance(data, pd.DataFrame):
-                    data.to_csv(Path.joinpath(save_dir, filename))
+                    data.to_excel(Path.joinpath(save_dir, filename))
 
             elif Path(value).is_dir():
                 dir_name = Path(value).name
