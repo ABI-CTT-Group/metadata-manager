@@ -1,3 +1,6 @@
-parameterized
+parameterized~=0.8.1
 nbsphinx
 nbsphinx-link
+pandas~=1.1.5
+xlrd~=2.0.1
+numpy~=1.19.5
