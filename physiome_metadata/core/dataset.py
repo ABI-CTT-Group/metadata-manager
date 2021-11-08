@@ -107,11 +107,13 @@ class Dataset(object):
 
         return self._dataset
 
-    def save_dataset(self, save_dir):
+    def save_dataset(self, save_dir, remove_empty=False):
         """
         Save dataset
         :param save_dir: path to the dest dir
         :type save_dir: string
+        :param remove_empty: (optional) If True, remove rows which do not have values in the "Value" field
+        :type remove_empty: bool
         """
         if not self._dataset:
             msg = "Dataset not defined. Please load the dataset or the template dataset in advance."
@@ -126,6 +128,10 @@ class Dataset(object):
                 file_path = Path(value.get("path"))
                 filename = file_path.name
                 data = value.get("metadata")
+
+                if remove_empty:
+                    data = self._filter(data, filename)
+
                 if isinstance(data, pd.DataFrame):
                     data.to_excel(Path.joinpath(save_dir, filename))
 
@@ -158,5 +164,21 @@ class Dataset(object):
             "path": path,
             "metadata": metadata
         }
+
+        return metadata
+
+    def _filter(self, metadata, filename):
+        """
+        Remove column/row if values not set
+        :param metadata: metadata
+        :type metadata: Pandas.DataFrame
+        :param filename: name of the metadata
+        :type filename: string
+        :return: updated metadata
+        :rtype: Pandas.DataFrame
+        """
+        if "dataset_description" in filename:
+            # For the dataset_description metadata, remove rows which do not have values in the "Value" fields
+            metadata = metadata.dropna(subset=["Value"])
 
         return metadata
