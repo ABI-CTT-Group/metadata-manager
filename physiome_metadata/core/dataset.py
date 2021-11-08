@@ -90,7 +90,7 @@ class Dataset(object):
         for path in dataset_path.iterdir():
             if path.suffix in self._metadata_extensions:
                 try:
-                    metadata = pd.read_excel(path, index_col=[0])
+                    metadata = pd.read_excel(path)
                 except XLRDError:
                     metadata = pd.read_excel(path, engine='openpyxl')
 
