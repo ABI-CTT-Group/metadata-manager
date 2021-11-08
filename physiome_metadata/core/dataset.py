@@ -17,7 +17,7 @@ class Dataset(object):
         self._dataset = dict()
         self._metadata_extensions = [".xlsx"]
 
-        self.set_template()
+        self.load_template()
 
     def set_dataset_path(self, path):
         """
