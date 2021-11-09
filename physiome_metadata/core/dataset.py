@@ -74,6 +74,9 @@ class Dataset(object):
                 except XLRDError:
                     metadata = pd.read_excel(path, engine='openpyxl')
 
+                metadata = metadata.dropna(how="all")
+                metadata = metadata.loc[:, ~metadata.columns.str.contains('^Unnamed')]
+
                 key = path.stem
                 value = {
                     "path": path,
