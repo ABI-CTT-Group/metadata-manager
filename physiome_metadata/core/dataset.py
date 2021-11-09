@@ -264,13 +264,13 @@ class Dataset(object):
 
         return fields
 
-    def set_field(self, category, idx, header, value):
+    def set_field(self, category, element, header, value):
         """
         Set single field by row idx/name and column name (the header)
         :param category: metadata category
         :type category: string
-        :param idx: row index or name, uni-identifier for the row. can be an integer (the index of a row) or a string (in this case, the first column will be the index)
-        :type idx: int or string
+        :param element: row index or name, uni-identifier for the row. can be an integer (the index of a row) or a string (in this case, the first column will be the index)
+        :type element: int or string
         :param header: column name. the header is the first row
         :type header: string
         :param value: field value
@@ -284,14 +284,14 @@ class Dataset(object):
 
         metadata = self._dataset.get(category).get("metadata")
 
-        if isinstance(idx, int):
-            idx = str(idx)
-        if isinstance(idx, str):
+        if isinstance(element, int):
+            element = str(element)
+        if isinstance(element, str):
             # set the first column as the index column
             metadata = metadata.set_index(list(metadata)[0])
 
         try:
-            metadata.at[idx, header] = value
+            metadata.at[element, header] = value
             metadata = metadata.reset_index()
         except ValueError:
             msg = "Value error. row does not exists."
