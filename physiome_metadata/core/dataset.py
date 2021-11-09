@@ -228,6 +228,10 @@ class Dataset(object):
                 category = file_path.stem
                 categories.append(category)
 
+        print("Categories:")
+        for category in categories:
+            print(category)
+
         return categories
 
     def list_fields(self, category, axis=0):
@@ -253,6 +257,10 @@ class Dataset(object):
             fields = list(metadata.index)
         elif axis == 1:
             fields = list(metadata.columns)
+
+        print("Fields:")
+        for field in fields:
+            print(field)
 
         return fields
 
