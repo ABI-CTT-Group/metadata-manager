@@ -1,5 +1,7 @@
+import os
 import shutil
 from pathlib import Path
+from distutils.dir_util import copy_tree
 
 import pandas as pd
 from xlrd import XLRDError
@@ -109,7 +111,7 @@ class Dataset(object):
         if version:
             self.set_template(version)
 
-        shutil.copytree(self._template_dir, save_dir)
+        copy_tree(str(self._template_dir), str(save_dir))
 
     def load_dataset(self, dataset_path):
         """
@@ -154,12 +156,19 @@ class Dataset(object):
             elif Path(value).is_dir():
                 dir_name = Path(value).name
                 dir_path = Path.joinpath(save_dir, dir_name)
-                shutil.copytree(value, dir_path)
+                copy_tree(str(value), str(dir_path))
 
             elif Path(value).is_file():
                 filename = Path(value).name
                 file_path = Path.joinpath(save_dir, filename)
-                shutil.copyfile(value, file_path)
+                try:
+                    shutil.copyfile(value, file_path)
+                except shutil.SameFileError:
+                    # overwrite file by copy, remove then rename
+                    file_path_tmp = str(file_path) + "_tmp"
+                    shutil.copyfile(value, file_path_tmp)
+                    os.remove(file_path)
+                    os.rename(file_path_tmp, file_path)
 
     def load_metadata(self, path):
         """
