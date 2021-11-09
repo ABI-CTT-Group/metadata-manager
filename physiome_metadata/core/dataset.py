@@ -244,6 +244,8 @@ class Dataset(object):
 
         data = self._template.get(category)
         metadata = data.get("metadata")
+        # set the first column as the index column
+        metadata = metadata.set_index(list(metadata)[0])
         if axis == 0:
             fields = list(metadata.index)
         elif axis == 1:
