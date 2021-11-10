@@ -24,6 +24,7 @@ class Dataset(object):
     def set_dataset_path(self, path):
         """
         Set the path to the dataset
+
         :param path: path to the dataset directory
         :type path: string
         """
@@ -32,6 +33,7 @@ class Dataset(object):
     def set_template_version(self, version):
         """
         Choose a template version
+
         :param version: template version
         :type version: string
         """
@@ -40,6 +42,7 @@ class Dataset(object):
     def set_template(self, version=None):
         """
         Set template version & path
+
         :param version: template version
         :type version: string
         """
@@ -59,6 +62,7 @@ class Dataset(object):
     def load(self, dir_path):
         """
         Load the input dataset into a dictionary
+
         :param dir_path: path to the dataset dictionary
         :type dir_path: string
         :return: loaded dataset
@@ -93,6 +97,7 @@ class Dataset(object):
     def load_template(self, version=None):
         """
         Load template
+
         :param version: template version
         :type version: string
         :return: loaded dataset
@@ -106,6 +111,7 @@ class Dataset(object):
     def save_template(self, save_dir, version=None):
         """
         Save the template directory locally
+
         :param save_dir: path to the output folder
         :type save_dir: string
         :param version: template version
@@ -119,6 +125,7 @@ class Dataset(object):
     def load_dataset(self, dataset_path):
         """
         Load the input dataset into a dictionary
+
         :param dataset_path: path to the dataset
         :type dataset_path: string
         :return: loaded dataset
@@ -131,6 +138,7 @@ class Dataset(object):
     def save_dataset(self, save_dir, remove_empty=False):
         """
         Save dataset
+
         :param save_dir: path to the dest dir
         :type save_dir: string
         :param remove_empty: (optional) If True, remove rows which do not have values in the "Value" field
@@ -176,6 +184,7 @@ class Dataset(object):
     def load_metadata(self, path):
         """
         Load & update a single metadata
+
         :param path: path to the metadata file
         :type path: string
         :return: metadata
@@ -198,6 +207,7 @@ class Dataset(object):
     def _filter(self, metadata, filename):
         """
         Remove column/row if values not set
+
         :param metadata: metadata
         :type metadata: Pandas.DataFrame
         :param filename: name of the metadata
@@ -214,6 +224,7 @@ class Dataset(object):
     def list_categories(self):
         """
         list all categories based on the metadata files in the template dataset
+
         :return: all metadata categories
         :rtype: list
         """
@@ -237,6 +248,7 @@ class Dataset(object):
     def list_fields(self, category, axis=0):
         """
         List field from a metadata file
+
         :param category: metadata category
         :type category: string
         :param axis: If 0, list by the first row. If 1, list by the first column
@@ -267,6 +279,7 @@ class Dataset(object):
     def set_field(self, category, element, header, value):
         """
         Set single field by row idx/name and column name (the header)
+
         :param category: metadata category
         :type category: string
         :param element: row index or name, uni-identifier for the row. can be an integer (the index of a row) or a string (in this case, the first column will be the index)
@@ -304,6 +317,7 @@ class Dataset(object):
     def append(self, category, row):
         """
         Append a row to a metadata file
+
         :param category: metadata category
         :type category: string
         :param row: a row to be appended
@@ -321,5 +335,3 @@ class Dataset(object):
         self._dataset[category]["metadata"] = metadata
 
         return self._dataset
-
-
