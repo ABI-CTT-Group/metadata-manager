@@ -1,2 +1,2 @@
-from physiome_metadata.core import *
+from physiome_metadata.core.dataset import *
 
