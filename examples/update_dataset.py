@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from physiome_metadata.core.dataset import Dataset
+from physiome_metadata import Dataset
 
 if __name__ == '__main__':
     dataset = Dataset()
