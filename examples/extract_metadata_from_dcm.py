@@ -7,9 +7,11 @@ if __name__ == '__main__':
     dcm_path = Path(__file__).parent.resolve() / "./resources/series-000001/image-000001.dcm"
     dcm_path = Path(__file__).parent.resolve() / "./resources/series-000001/"
 
+    # Extracting all tags
     metadata = extract_metadata_from_dcm(dcm_path)
     print(metadata)
 
+    # Extracting only a few tags
     target_tags = {
         'name': (0x10, 0x10),
         'id': (0x10, 0x20),

@@ -13,6 +13,7 @@ This documentation outlines ...
    :caption: Contents:
 
    introduction
+   examples
    api
    contributors
 

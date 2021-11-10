@@ -52,5 +52,5 @@ Over time, your fork may become out of sync with the master branch of the Upstre
 
 ## Resources/references
 
-- The SPARC dataset template in ./physiome_metadata/resources/templates is retrieved from [this repository](https://github.com/LIN810116/sparc-curation/tree/master/resources/DatasetTemplate).
+- The SPARC dataset template in ./physiome_metadata/resources/templates is retrieved from [this repository](https://github.com/SciCrunch/sparc-curation).
 - The example dicom image ./examples/resources/series-000001 is retrieved from [DICOM Library](https://www.dicomlibrary.com/?manage=feb6447a72c9a0a31e1bb4459e547964)

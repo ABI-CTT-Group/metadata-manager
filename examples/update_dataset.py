@@ -13,9 +13,9 @@ if __name__ == '__main__':
 
     # Update a field in the dataset_description metadata file. row=="Metadata Version", column=="Value",
     # and value will be set "testValue"
-    dataset.set_field("dataset_description", element="Metadata Version", header="Value", value="testValue")
+    dataset.set_field(category="dataset_description", element="Metadata Version", header="Value", value="testValue")
 
     # # Append a row to the "subjects" metadata file. "subject id" will be set to "test_id"
-    dataset.append("subjects", {"subject id": "test_id"})
+    dataset.append(category="subjects", row={"subject id": "test_id"})
 
     dataset.save_dataset(dataset_dir)
