@@ -14,6 +14,22 @@ Default template version number: 2.0.0
 .. literalinclude:: ../../examples/template_operations.py
       :language: python
 
+Listing metadata elements
+-------------------------
+
+Run ``dataset_info.py`` to list the SPARC metadata elements for a given metadata file.
+
+.. code-block:: python
+
+    elements = dataset.list_fields(category="METADATA_FILE", axis=0)
+
+Where
+   * METADATA_FILE: The name of the metadata file, e.g "dataset_description" or "subjects"
+   * axis: If axis=0, list the headers (the first row). If axis=1, list the index column (the first column). Please set axis to 0 for dataset_description. For the other metadata file, set axis to 1.
+
+.. literalinclude:: ../../examples/dataset_info.py
+      :language: python
+
 Updating metadata
 -----------------
 
