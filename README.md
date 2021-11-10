@@ -52,4 +52,4 @@ Over time, your fork may become out of sync with the master branch of the Upstre
 
 ## Resources/references
 
-- The SPARC dataset template in the ./resources/DatasetTemplate/ folder is retrieved from [this repository](https://github.com/LIN810116/sparc-curation/tree/master/resources/DatasetTemplate).
+- The SPARC dataset template in ./physiome_metadata/resources/templates is retrieved from [this repository](https://github.com/LIN810116/sparc-curation/tree/master/resources/DatasetTemplate).
