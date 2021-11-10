@@ -12,8 +12,9 @@ This documentation outlines ...
    :maxdepth: 2
    :caption: Contents:
 
-   contributors
    introduction
+   api
+   contributors
 
 Indices and tables
 ==================
