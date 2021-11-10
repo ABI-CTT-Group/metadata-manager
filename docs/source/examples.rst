@@ -65,10 +65,11 @@ This example will extract the metadata from an example dicom file (data retrieve
 Workflow example
 ----------------
 
-This example show how to apply the metadata module to a data processing workflow. Run ``example_workflow.py`` to see how it works.
-It will create a dummy workflow object and the metadata dataset in the SPARC structure.
-Then import only one component/script to the workflow.
-Here we assume the first and the only component will import all the dicom files and extract the metadata from the dicom files, then save the metadata to ``./tmp/dataset``.
+This example shows how to apply the metadata module to a data processing workflow.
+Run ``example_workflow.py`` to see how it works.
+The example script will create a dummy workflow object and the metadata dataset in the SPARC structure in ``./examples/temp/``.
+Then import only one data processing script to the workflow.
+Here we assume the import script will import all the dicom files in a folder and extract the metadata from these dicom files. Then update the metadata dataset using the extracted values.
 This is where the Physiome Metadata module comes in.
 
 .. literalinclude:: ../../examples/example_workflow.py
