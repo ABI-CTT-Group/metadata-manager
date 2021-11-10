@@ -17,9 +17,9 @@
 
 # -- Project information -----------------------------------------------------
 
-project = 'Your project'
-copyright = '2020, Your name'
-author = 'Your name'
+project = 'Physiome Metadata'
+copyright = '2021, Chinchien Lin, Thiranja Prasad Babarenda Gamage'
+author = 'Chinchien Lin, Thiranja Prasad Babarenda Gamage'
 
 
 # -- General configuration ---------------------------------------------------
