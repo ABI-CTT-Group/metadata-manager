@@ -1,12 +1,12 @@
 """
-This example workflow uses the physiome_metadata module for the metadata management
+This example workflow uses the metadata_manager module for the metadata management
 Only one workflow step (import scan) involved here.
 """
 import os
 from pathlib import Path
 
-from physiome_metadata import Dataset
-from physiome_metadata import extract_metadata_from_dcm
+from metadata_manager import Dataset
+from metadata_manager import extract_metadata_from_dcm
 
 
 def import_scan(dicom_dir, metadata_dir):

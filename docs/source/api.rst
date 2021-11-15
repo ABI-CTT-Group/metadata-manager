@@ -1,7 +1,7 @@
 API
 ===
 
-.. automodule:: physiome_metadata
+.. automodule:: metadata_manager
 
 Dataset
 -------
@@ -13,4 +13,4 @@ Dataset
 utils
 -----
 
-.. automethod:: physiome_metadata::extract_metadata_from_dcm
+.. automethod:: metadata_manager::extract_metadata_from_dcm

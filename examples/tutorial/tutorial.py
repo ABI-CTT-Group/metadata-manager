@@ -6,7 +6,7 @@ Authors: Your name
 Your organisation
 """
 
-import physiome_metadata
+import metadata_manager
 
 def main(cfg, test=False):
 

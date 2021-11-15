@@ -17,7 +17,7 @@
 
 # -- Project information -----------------------------------------------------
 
-project = 'Physiome Metadata'
+project = 'Matadata Manager'
 copyright = '2021, Chinchien Lin, Thiranja Prasad Babarenda Gamage'
 author = 'Chinchien Lin, Thiranja Prasad Babarenda Gamage'
 

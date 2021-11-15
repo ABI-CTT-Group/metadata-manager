@@ -1,4 +1,4 @@
-from physiome_metadata import Dataset
+from metadata_manager import Dataset
 
 if __name__ == '__main__':
     dataset = Dataset()

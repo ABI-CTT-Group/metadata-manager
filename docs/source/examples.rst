@@ -70,7 +70,7 @@ Run ``example_workflow.py`` to see how it works.
 The example script will create a dummy workflow object and the metadata dataset in the SPARC structure in ``./examples/temp/``.
 Then import only one data processing script to the workflow.
 Here we assume the import script will import all the dicom files in a folder and extract the metadata from these dicom files. Then update the metadata dataset using the extracted values.
-This is where the Physiome Metadata module comes in.
+This is where the Metadata Manager module comes in.
 
 .. literalinclude:: ../../examples/example_workflow.py
       :language: python

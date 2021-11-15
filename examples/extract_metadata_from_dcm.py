@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from physiome_metadata import extract_metadata_from_dcm
+from metadata_manager import extract_metadata_from_dcm
 
 
 if __name__ == '__main__':
