@@ -1,5 +1,5 @@
 Welcome to the Metadata Manager documentation!
-========================================
+==============================================
 
 This documentation outlines ...
 

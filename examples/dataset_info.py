@@ -8,7 +8,7 @@ if __name__ == '__main__':
     print(categories)
 
     # List fields
-    # Horizontal: - first row
+    # Horizontal: first row
     fields = dataset.list_fields(category="dataset_description", axis=0)
     # Vertical: first column
     fields = dataset.list_fields(category="subjects", axis=1)
