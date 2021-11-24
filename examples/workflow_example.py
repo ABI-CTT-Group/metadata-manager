@@ -44,6 +44,30 @@ def import_scan(dicom_dir, metadata_dir):
     return "/path/to/the/imported/scan/dir"
 
 
+def convert_dicom_to_nifti(path, metadata_dir):
+    """
+    Pretend to convert dicom files to a single nifti file.
+    Then update the SPARC code_parameters metadata file
+    """
+    print("Converting Dicom to Nifti...")
+
+    print("Updating metadata")
+    dataset = Dataset()
+    dataset.load_dataset(metadata_dir)
+    row = {
+        "Type": "input",
+        "Service name": "convert_dicom_to_nifti",
+        "Service version": "1.0.0",
+        "Name": "orientation",
+        "Data Type": "string",
+        "Data Default Value": "default"
+    }
+    dataset.append("code_parameters", row)
+    dataset.save_dataset(metadata_dir)
+
+    return "/path/to/nifti/dir"
+
+
 class Workflow(object):
     def __init__(self):
         self._scripts = list()
@@ -72,6 +96,7 @@ class Workflow(object):
     def run(self, dicom_dir, metadata_dir):
         # assume there is only one workflow component/script to run
         workspace_1 = import_scan(dicom_dir, metadata_dir)
+        workspace_2 = convert_dicom_to_nifti(workspace_1, metadata_dir)
 
 
 if __name__ == '__main__':
@@ -84,6 +109,11 @@ if __name__ == '__main__':
     workflow.import_script("/path/to/workflow/script/import_scan.py",
                            code_description={"Metadata element": "import_scan",
                                              "Description": "Import dicom files and extract metadata from dicom headers",
+                                             "Example": None,
+                                             "Value": None})
+    workflow.import_script("/path/to/workflow/script/convert_dicom_to_nifti.py",
+                           code_description={"Metadata element": "convert_dicom_to_nifti",
+                                             "Description": "Convert dicom files to a single nifti file",
                                              "Example": None,
                                              "Value": None})
     # Trigger workflow
