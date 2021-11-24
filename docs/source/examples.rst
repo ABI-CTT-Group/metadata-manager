@@ -4,7 +4,7 @@ Examples
 This section demonstrates some usage examples of the metadata management module.
 The example scripts can be found in the ``./examples`` folder.
 
-Loading the saving the template dataset
+Loading and saving the template dataset
 ---------------------------------------
 
 Run ``template_operations.py`` to load and the the template dataset in ``./examples/temp/``.
