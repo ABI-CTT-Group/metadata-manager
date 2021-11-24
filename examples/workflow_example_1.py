@@ -1,6 +1,6 @@
 """
 This example workflow uses the metadata_manager module for the metadata management
-Only one workflow step (import scan) involved here.
+Only one workflow step (import dicom file and extracting metadata from dicom headers) involved here.
 """
 import os
 from pathlib import Path
@@ -10,12 +10,27 @@ from metadata_manager import extract_metadata_from_dcm
 
 
 def import_scan(dicom_dir, metadata_dir):
+    """
+    Pretend to move/copy the dicom files into a workspace (a folder to store the results from a workflow step).
+    Then extract the metadata from the dicom headers and save it to the SPARC metadata file - subjects.xlsx
+    """
+
+    files = os.listdir(dicom_dir)
+    for file in files:
+        print("Importing " + str(file))
+
+    print("Imported all dicom files")
+
     # Extracting metadata
     metadata = extract_metadata_from_dcm(dicom_dir)
 
     # Writing/updating metadata
     dataset = Dataset()
     dataset.load_dataset(metadata_dir)
+    # Append a row in dictionary format into a specified SPARC metadata file
+    # Here, a new row will be added to the subject metadata file
+    # the dictionary keys are the SPARC elements/column names in the metadata file,
+    # while the dictionary values are the dicom tags extracted from the dicom headers or the user specified values.
     row = {
         "subject id": metadata.get("PatientID"),
         "age": metadata.get("PatientAge"),
@@ -25,14 +40,13 @@ def import_scan(dicom_dir, metadata_dir):
     dataset.append("subjects", row)
     dataset.save_dataset(metadata_dir)
 
-    files = os.listdir(dicom_dir)
-    for file in files:
-        print("Importing " + str(file))
+    return "/path/to/the/imported/scan/dir"
 
     print("Imported all dicom files")
 
 
-class Workflow:
+
+class Workflow(object):
     def __init__(self):
         self._scripts = list()
         self._metadata_dataset = None
@@ -46,7 +60,7 @@ class Workflow:
         self._metadata_dataset.save_template(metadata_dir)
 
         self._metadata_dataset.load_dataset(metadata_dir)
-        "Metadata Version"
+
         self._metadata_dataset.set_field("dataset_description", element="Metadata Version", header="Value", value="2.0.0")
         self._metadata_dataset.set_field("dataset_description", element="    Title", header="Value", value="Test Project")
         self._metadata_dataset.save_dataset(metadata_dir)
@@ -57,17 +71,16 @@ class Workflow:
 
     def run(self, dicom_dir, metadata_dir):
         # assume there is only one workflow component/script to run
-        import_scan(dicom_dir, metadata_dir)
+        workspace_1 = import_scan(dicom_dir, metadata_dir)
 
 
 if __name__ == '__main__':
     dicom_dir = "./resources/series-000001"
     metadata_dir = Path(__file__).parent.resolve() / "./tmp/dataset"
-    # 1. create workflow
+    # Create workflow
     workflow = Workflow()
     workflow.initialise_metadata(metadata_dir)
-    # 2. import workflow component/script
-    script_path = "/path/to/workflow/script.py"
-    workflow.import_script(str(script_path))
-    # 3. trigger workflow
+    # Import workflow component/script
+    workflow.import_script("/path/to/workflow/script_1.py")
+    # Trigger workflow
     workflow.run(dicom_dir=dicom_dir, metadata_dir=metadata_dir)
