@@ -30,6 +30,14 @@ class Dataset(object):
         """
         self._dataset_path = Path(path)
 
+    def get_dataset_path(self):
+        """
+        Return the path to the dataset directory
+        :return: path to the dataset directory
+        :rtype: string
+        """
+        return str(self._dataset_path)
+
     def set_template_version(self, version):
         """
         Choose a template version
