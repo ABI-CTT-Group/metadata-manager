@@ -1,7 +1,8 @@
 """
-This example workflow uses the metadata_manager module for the metadata management
-Only one workflow step (import dicom file and extracting metadata from dicom headers) involved here.
+This example workflow uses the metadata_manager module for the metadata management.
+Have a look and run the main function to see how the metadata is generated and updated to the SPARC dataset structure.
 """
+
 import os
 from pathlib import Path
 
@@ -42,9 +43,6 @@ def import_scan(dicom_dir, metadata_dir):
 
     return "/path/to/the/imported/scan/dir"
 
-    print("Imported all dicom files")
-
-
 
 class Workflow(object):
     def __init__(self):
@@ -65,8 +63,10 @@ class Workflow(object):
         self._metadata_dataset.set_field("dataset_description", element="    Title", header="Value", value="Test Project")
         self._metadata_dataset.save_dataset(metadata_dir)
 
-    def import_script(self, script_path):
+    def import_script(self, script_path, code_description=dict()):
         self._scripts.append(script_path)
+        self._metadata_dataset.append("code_description", code_description)
+        self._metadata_dataset.save_dataset(metadata_dir)
         print("Script imported")
 
     def run(self, dicom_dir, metadata_dir):
@@ -81,6 +81,10 @@ if __name__ == '__main__':
     workflow = Workflow()
     workflow.initialise_metadata(metadata_dir)
     # Import workflow component/script
-    workflow.import_script("/path/to/workflow/script_1.py")
+    workflow.import_script("/path/to/workflow/script/import_scan.py",
+                           code_description={"Metadata element": "import_scan",
+                                             "Description": "Import dicom files and extract metadata from dicom headers",
+                                             "Example": None,
+                                             "Value": None})
     # Trigger workflow
     workflow.run(dicom_dir=dicom_dir, metadata_dir=metadata_dir)
