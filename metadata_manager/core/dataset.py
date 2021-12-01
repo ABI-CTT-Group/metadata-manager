@@ -113,6 +113,7 @@ class Dataset(object):
         """
         self.set_template(version)
         self._template = self.load(self._template_dir)
+        self._dataset = self._template
 
         return self._template
 
@@ -143,7 +144,7 @@ class Dataset(object):
 
         return self._dataset
 
-    def save_dataset(self, save_dir, remove_empty=False):
+    def save(self, save_dir, remove_empty=False):
         """
         Save dataset
 
