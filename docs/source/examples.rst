@@ -4,14 +4,14 @@ Examples
 This section demonstrates some usage examples of the metadata management module.
 The example scripts can be found in the ``./examples`` folder.
 
-Loading and saving the template dataset
----------------------------------------
+Loading and saving the dataset
+-------------------------------
 
-Run ``template_operations.py`` to load and the the template dataset in ``./examples/temp/``.
+Run ``load_and_save.py`` to load and save and the template dataset to ``./examples/temp/``.
 The template dataset is in `the SPARC dataset structure <https://sparc.science/help/3FXikFXC8shPRd8xZqhjVT>`_ and retried from `the sparc-curation repository <https://github.com/SciCrunch/sparc-curation>`_.
 Default template version number: 2.0.0
 
-.. literalinclude:: ../../examples/template_operations.py
+.. literalinclude:: ../../examples/load_and_save.py
       :language: python
 
 Listing metadata elements
