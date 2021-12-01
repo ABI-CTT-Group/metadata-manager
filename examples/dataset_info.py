@@ -7,10 +7,8 @@ if __name__ == '__main__':
     categories = dataset.list_categories()
     print(categories)
 
-    # List fields
-    # Horizontal: first row
-    fields = dataset.list_elements(category="dataset_description")
-    # Vertical: first column
-    fields = dataset.list_elements(category="subjects")
+    # List SPARC elements
+    elements = dataset.list_elements(category="dataset_description")
+    elements = dataset.list_elements(category="subjects")
 
 
