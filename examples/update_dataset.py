@@ -18,4 +18,4 @@ if __name__ == '__main__':
     # # Append a row to the "subjects" metadata file. "subject id" will be set to "test_id"
     dataset.append(category="subjects", row={"subject id": "test_id"})
 
-    dataset.save_dataset(dataset_dir)
+    dataset.save(dataset_dir)

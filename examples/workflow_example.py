@@ -39,7 +39,7 @@ def import_scan(dicom_dir, metadata_dir):
         "strain": "n/a"
     }
     dataset.append("subjects", row)
-    dataset.save_dataset(metadata_dir)
+    dataset.save(metadata_dir)
 
     return "/path/to/the/imported/scan/dir"
 
@@ -63,7 +63,7 @@ def convert_dicom_to_nifti(path, metadata_dir):
         "Data Default Value": "default"
     }
     dataset.append("code_parameters", row)
-    dataset.save_dataset(metadata_dir)
+    dataset.save(metadata_dir)
 
     return "/path/to/nifti/dir"
 
@@ -85,12 +85,12 @@ class Workflow(object):
 
         self._metadata_dataset.set_field("dataset_description", element="Metadata Version", header="Value", value="2.0.0")
         self._metadata_dataset.set_field("dataset_description", element="    Title", header="Value", value="Test Project")
-        self._metadata_dataset.save_dataset(metadata_dir)
+        self._metadata_dataset.save(metadata_dir)
 
     def import_script(self, script_path, code_description=dict()):
         self._scripts.append(script_path)
         self._metadata_dataset.append("code_description", code_description)
-        self._metadata_dataset.save_dataset(metadata_dir)
+        self._metadata_dataset.save(metadata_dir)
         print("Script imported")
 
     def run(self, dicom_dir, metadata_dir):
