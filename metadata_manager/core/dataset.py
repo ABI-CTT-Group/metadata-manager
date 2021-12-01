@@ -254,7 +254,7 @@ class Dataset(object):
 
         return categories
 
-    def list_fields(self, category, axis=0):
+    def list_elements(self, category, axis=0):
         """
         List field from a metadata file
 

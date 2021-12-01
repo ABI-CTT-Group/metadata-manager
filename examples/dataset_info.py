@@ -9,8 +9,8 @@ if __name__ == '__main__':
 
     # List fields
     # Horizontal: first row
-    fields = dataset.list_fields(category="dataset_description")
+    fields = dataset.list_elements(category="dataset_description")
     # Vertical: first column
-    fields = dataset.list_fields(category="subjects")
+    fields = dataset.list_elements(category="subjects")
 
 

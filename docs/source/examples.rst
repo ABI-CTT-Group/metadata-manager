@@ -21,7 +21,7 @@ Run ``dataset_info.py`` to list the SPARC metadata elements for a given metadata
 
 .. code-block:: python
 
-    elements = dataset.list_fields(category="METADATA_FILE")
+    elements = dataset.list_elements(category="METADATA_FILE")
 
 Where
    * METADATA_FILE: The name of the metadata file, e.g "dataset_description" or "subjects"
