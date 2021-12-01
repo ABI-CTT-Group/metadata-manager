@@ -260,11 +260,15 @@ class Dataset(object):
 
         :param category: metadata category
         :type category: string
-        :param axis: If 0, list by the first row. If 1, list by the first column
+        :param axis: If axis=0, column-based. list all column headers. i.e. the first row.
+                     If axis=1, row-based. list all row index. i.e. the first column in each row
         :type axis: int
         :return: a list of fields
         :rtype: list
         """
+        if category == "dataset_description":
+            axis = 1
+
         fields = None
 
         if not self._template:
@@ -275,9 +279,9 @@ class Dataset(object):
         # set the first column as the index column
         metadata = metadata.set_index(list(metadata)[0])
         if axis == 0:
-            fields = list(metadata.index)
-        elif axis == 1:
             fields = list(metadata.columns)
+        elif axis == 1:
+            fields = list(metadata.index)
 
         print("Fields:")
         for field in fields:
