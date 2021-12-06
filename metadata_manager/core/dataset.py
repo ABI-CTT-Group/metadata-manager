@@ -273,10 +273,33 @@ class Dataset(object):
         :return: a list of fields
         :rtype: list
         """
+        fields = None
+
         if category == "dataset_description":
             axis = 1
 
-        fields = None
+        if version:
+            version = version.replace(".", "_")
+
+            if "_" not in version:
+                version = version + "_0_0"
+
+            version = "version_" + version
+            element_description_file = self._resources_path / "templates" / version / "element_descriptions.xlsx"
+            try:
+                element_description = pd.read_excel(element_description_file, sheet_name=category)
+            except XLRDError:
+                element_description = pd.read_excel(element_description_file, sheet_name=category, engine='openpyxl')
+
+            print("Category: " + str(category))
+            for index, row in element_description.iterrows():
+                print(str(row["Element"]))
+                print("    Type: " + str(row["Type"]))
+                print("    Description: " + str(row["Description"]))
+                print("    Example: " + str(row["Example"]))
+
+            fields = element_description.values.tolist()
+            return fields
 
         if not self._template:
             self.load_template(version=None)
