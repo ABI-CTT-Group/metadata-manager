@@ -230,14 +230,19 @@ class Dataset(object):
 
         return metadata
 
-    def list_categories(self):
+    def list_categories(self, version=None):
         """
         list all categories based on the metadata files in the template dataset
 
+        :param version: reference template version
+        :type version: string
         :return: all metadata categories
         :rtype: list
         """
         categories = list()
+
+        if version:
+            self.load_template(version=version)
 
         if not self._template:
             self.load_template()
@@ -254,7 +259,7 @@ class Dataset(object):
 
         return categories
 
-    def list_elements(self, category, axis=0):
+    def list_elements(self, category, axis=0, version=None):
         """
         List field from a metadata file
 
@@ -263,6 +268,8 @@ class Dataset(object):
         :param axis: If axis=0, column-based. list all column headers. i.e. the first row.
                      If axis=1, row-based. list all row index. i.e. the first column in each row
         :type axis: int
+        :param version: reference template version
+        :type version: string
         :return: a list of fields
         :rtype: list
         """
@@ -272,7 +279,7 @@ class Dataset(object):
         fields = None
 
         if not self._template:
-            self.load_template()
+            self.load_template(version=None)
 
         data = self._template.get(category)
         metadata = data.get("metadata")
