@@ -1,4 +1,4 @@
-# physiome-metadata
+# metadata-manager
 
 Python module for generating and managing metadata in the [SPARC Dataset structure](https://sparc.science/help/3FXikFXC8shPRd8xZqhjVT).
 See the documentation for more information.
@@ -52,5 +52,5 @@ Over time, your fork may become out of sync with the master branch of the Upstre
 
 ## Resources/references
 
-- The SPARC dataset template in ./physiome_metadata/resources/templates is retrieved from [this repository](https://github.com/SciCrunch/sparc-curation).
+- The SPARC dataset template in ./metadata_manager/resources/templates is retrieved from [this repository](https://github.com/SciCrunch/sparc-curation).
 - The example dicom image ./examples/resources/series-000001 is retrieved from [DICOM Library](https://www.dicomlibrary.com/?manage=feb6447a72c9a0a31e1bb4459e547964)
