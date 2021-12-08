@@ -79,7 +79,7 @@ class Workflow(object):
             os.makedirs(metadata_dir)
 
         self._metadata_dataset = Dataset()
-        self._metadata_dataset.save_template(metadata_dir)
+        self._metadata_dataset.save_template(metadata_dir, version="2.0.0")
 
         self._metadata_dataset.load_dataset(metadata_dir)
 

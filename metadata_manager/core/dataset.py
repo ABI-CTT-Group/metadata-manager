@@ -9,6 +9,7 @@ from xlrd import XLRDError
 
 class Dataset(object):
     def __init__(self):
+        self._version = None
         self._template_version = "2.0.0"  # default
         self._current_path = Path(__file__).parent.resolve()
         self._resources_path = Path.joinpath(self._current_path, "../resources")
@@ -18,8 +19,6 @@ class Dataset(object):
         self._dataset_path = Path()
         self._dataset = dict()
         self._metadata_extensions = [".xlsx"]
-
-        self.load_template()
 
     def set_dataset_path(self, path):
         """
@@ -38,6 +37,18 @@ class Dataset(object):
         """
         return str(self._dataset_path)
 
+    def _get_template_dir(self, version):
+        """
+        Get template directory path
+
+        :return: path to the template dataset
+        :rtype: Path
+        """
+        version = "version_" + version
+        template_dir = self._resources_path / "templates" / version / "DatasetTemplate"
+
+        return template_dir
+
     def set_template_version(self, version):
         """
         Choose a template version
@@ -45,29 +56,10 @@ class Dataset(object):
         :param version: template version
         :type version: string
         """
+        version = version.replace(".", "_")
         self._template_version = version
 
-    def set_template(self, version=None):
-        """
-        Set template version & path
-
-        :param version: template version
-        :type version: string
-        """
-        if version:
-            self.set_template_version(version)
-
-        version = self._template_version.replace(".", "_")
-
-        if "_" not in version:
-            version = version + "_0_0"
-
-        version = "version_" + version
-        template_dir = self._resources_path / "templates" / version / "DatasetTemplate"
-
-        self._template_dir = template_dir
-
-    def load(self, dir_path):
+    def _load(self, dir_path):
         """
         Load the input dataset into a dictionary
 
@@ -102,18 +94,61 @@ class Dataset(object):
 
         return dataset
 
-    def load_template(self, version=None):
+    def load_from_template(self, version):
         """
-        Load template
+        Load dataset from SPARC template
 
         :param version: template version
         :type version: string
         :return: loaded dataset
         :rtype: dict
         """
-        self.set_template(version)
-        self._template = self.load(self._template_dir)
-        self._dataset = self._template
+        self.set_version(version)
+        self._dataset_path = self._get_template_dir(self._version)
+        self._dataset = self._load(str(self._dataset_path))
+
+        return self._dataset
+
+    def _convert_version_format(self, version):
+        """
+        Convert version format
+        :param version: dataset/template version
+        :type version: string
+        :return: version in the converted format
+        :rtype:
+        """
+        version = version.replace(".", "_")
+
+        if "_" not in version:
+            version = version + "_0_0"
+
+        return version
+
+    def set_version(self, version):
+        """
+        Set dataset version version
+
+        :param version: dataset version
+        :type version: string
+        """
+        version = self._convert_version_format(version)
+
+        self._version = version
+
+    def load_template(self, version):
+        """
+        Load template
+
+        :param version: template version
+        :type version: string
+        :return: loaded template
+        :rtype: dict
+        """
+
+        version = self._convert_version_format(version)
+        self.set_template_version(version)
+        self._template_dir = self._get_template_dir(self._template_version)
+        self._template = self._load(str(self._template_dir))
 
         return self._template
 
@@ -127,20 +162,32 @@ class Dataset(object):
         :type version: string
         """
         if version:
-            self.set_template(version)
+            version = self._convert_version_format(version)
+            template_dir = self._get_template_dir(version)
+        elif not version and self._template_version:
+            template_dir = self._get_template_dir(self._template_version)
+        else:
+            raise ValueError("Template path not found.")
 
-        copy_tree(str(self._template_dir), str(save_dir))
+        copy_tree(str(template_dir), str(save_dir))
 
-    def load_dataset(self, dataset_path):
+    def load_dataset(self, dataset_path=None, from_template=False, version=None):
         """
         Load the input dataset into a dictionary
 
         :param dataset_path: path to the dataset
         :type dataset_path: string
+        :param from_template: whether to load the dataset from a SPARC template
+        :type from_template: bool
+        :param version: dataset version
+        :type version: string
         :return: loaded dataset
         :rtype: dict
         """
-        self._dataset = self.load(dataset_path)
+        if from_template:
+            self._dataset = self.load_from_template(version=version)
+        else:
+            self._dataset = self._load(dataset_path)
 
         return self._dataset
 
@@ -230,7 +277,7 @@ class Dataset(object):
 
         return metadata
 
-    def list_categories(self, version=None):
+    def list_categories(self, version):
         """
         list all categories based on the metadata files in the template dataset
 
@@ -241,11 +288,7 @@ class Dataset(object):
         """
         categories = list()
 
-        if version:
-            self.load_template(version=version)
-
-        if not self._template:
-            self.load_template()
+        self.load_template(version=version)
 
         for key, value in self._template.items():
             if isinstance(value, dict):
@@ -279,13 +322,11 @@ class Dataset(object):
             axis = 1
 
         if version:
-            version = version.replace(".", "_")
+            version = self._convert_version_format(version)
+            template_dir = self._get_template_dir(version)
 
-            if "_" not in version:
-                version = version + "_0_0"
+            element_description_file = template_dir / "../element_descriptions.xlsx"
 
-            version = "version_" + version
-            element_description_file = self._resources_path / "templates" / version / "element_descriptions.xlsx"
             try:
                 element_description = pd.read_excel(element_description_file, sheet_name=category)
             except XLRDError:
