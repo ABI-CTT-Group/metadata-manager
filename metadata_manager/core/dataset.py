@@ -159,7 +159,7 @@ class Dataset(object):
 
         save_dir = Path(save_dir)
         if not save_dir.is_dir():
-            save_dir.mkdir()
+            save_dir.mkdir(parents=True, exist_ok=False)
 
         for key, value in self._dataset.items():
             if isinstance(value, dict):
