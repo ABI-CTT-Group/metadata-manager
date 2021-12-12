@@ -1,0 +1,31 @@
+/* override table width restrictions */
+@media screen and (min-width: 767px) {
+
+   .wy-table-responsive table td {
+      /* !important prevents the common CSS stylesheets from overriding
+         this as on RTD they are loaded after this stylesheet */
+      white-space: normal !important;
+   }
+
+   .wy-table-responsive {
+      overflow: visible !important;
+   }
+}
+
+a {
+  color: #B71C1C;
+}
+
+/* Sidebar header (and topbar for mobile) */
+.wy-side-nav-search, .wy-nav-top {
+    background: #B71C1C;
+}
+
+.wy-menu-vertical header, .wy-menu-vertical p.caption {
+  color: #B71C1C;
+}
+
+/* Sidebar */
+.wy-side-nav-search input[type=text] {
+  border-color: #B71C1C;
+}
