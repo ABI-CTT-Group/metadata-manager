@@ -360,14 +360,14 @@ class Dataset(object):
 
         return fields
 
-    def set_field(self, category, element, header, value):
+    def set_field(self, category, row_index, header, value):
         """
         Set single field by row idx/name and column name (the header)
 
         :param category: metadata category
         :type category: string
-        :param element: row index or name, uni-identifier for the row. can be an integer (the index of a row) or a string (in this case, the first column will be the index)
-        :type element: int or string
+        :param row_index: row index in excel. Excel index starts from 1 where index 1 is the header row. so actual data index starts from 2
+        :type row_index: int
         :param header: column name. the header is the first row
         :type header: string
         :param value: field value
@@ -381,15 +381,14 @@ class Dataset(object):
 
         metadata = self._dataset.get(category).get("metadata")
 
-        if isinstance(element, int):
-            element = str(element)
-        if isinstance(element, str):
-            # set the first column as the index column
-            metadata = metadata.set_index(list(metadata)[0])
+        if not isinstance(row_index, int):
+            msg = "Value error. Row index should be int."
+            raise ValueError(msg)
 
         try:
-            metadata.at[element, header] = value
-            metadata = metadata.reset_index()
+            # Convert excel row index to dataframe index: index - 2
+            row_index = row_index - 2
+            metadata.loc[row_index, header] = value
         except ValueError:
             msg = "Value error. row does not exists."
             raise ValueError(msg)
