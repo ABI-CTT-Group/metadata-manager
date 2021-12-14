@@ -223,7 +223,7 @@ class Dataset(object):
             elif Path(value).is_dir():
                 dir_name = Path(value).name
                 dir_path = Path.joinpath(save_dir, dir_name)
-                copy_tree(str(value), str(dir_path))
+                copy_tree(str(value), str(dir_path), update=1)
 
             elif Path(value).is_file():
                 filename = Path(value).name
