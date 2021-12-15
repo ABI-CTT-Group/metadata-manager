@@ -11,6 +11,7 @@ from xlrd import XLRDError
 class Dataset(object):
     def __init__(self):
         DEFAULT_DATASET_VERSION = "2.0.0"
+        EXTENSIONS = [".xlsx"]
 
         self._template_version = DEFAULT_DATASET_VERSION
         self._version = DEFAULT_DATASET_VERSION
@@ -21,7 +22,7 @@ class Dataset(object):
 
         self._dataset_path = Path()
         self._dataset = dict()
-        self._metadata_extensions = [".xlsx"]
+        self._metadata_extensions = EXTENSIONS
 
     def set_dataset_path(self, path):
         """
