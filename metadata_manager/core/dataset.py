@@ -9,8 +9,8 @@ from xlrd import XLRDError
 
 class Dataset(object):
     def __init__(self):
-        self._version = None
         self._template_version = "2.0.0"  # default
+        self._version = self._template_version
         self._current_path = Path(__file__).parent.resolve()
         self._resources_path = Path.joinpath(self._current_path, "../resources")
         self._template_dir = Path()
