@@ -184,6 +184,9 @@ class Dataset(object):
         :return: loaded dataset
         :rtype: dict
         """
+        if version:
+            self.set_version(version)
+
         if from_template:
             self._dataset = self.load_from_template(version=version)
         else:
