@@ -377,7 +377,7 @@ class Dataset(object):
 
         :param category: metadata category
         :type category: string
-        :param row_index: row index in excel. Excel index starts from 1 where index 1 is the header row. so actual data index starts from 2
+        :param row_index: row index in Excel. Excel index starts from 1 where index 1 is the header row. so actual data index starts from 2
         :type row_index: int
         :param header: column name. the header is the first row
         :type header: string
@@ -397,7 +397,7 @@ class Dataset(object):
             raise ValueError(msg)
 
         try:
-            # Convert excel row index to dataframe index: index - 2
+            # Convert Excel row index to dataframe index: index - 2
             row_index = row_index - 2
             metadata.loc[row_index, header] = value
         except ValueError:
