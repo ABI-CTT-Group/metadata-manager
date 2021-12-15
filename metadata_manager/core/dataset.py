@@ -4,6 +4,7 @@ from pathlib import Path
 from distutils.dir_util import copy_tree
 
 import pandas as pd
+from styleframe import StyleFrame
 from xlrd import XLRDError
 
 
@@ -221,7 +222,12 @@ class Dataset(object):
                     data = self._filter(data, filename)
 
                 if isinstance(data, pd.DataFrame):
-                    data.to_excel(Path.joinpath(save_dir, filename), index=False)
+                    self.set_version(self._version)
+                    template_dir = self._get_template_dir(self._version)
+                    sf = StyleFrame.read_excel_as_template(str(template_dir / filename), data)
+                    writer = StyleFrame.ExcelWriter(Path.joinpath(save_dir, filename))
+                    sf.to_excel(writer)
+                    writer.save()
 
             elif Path(value).is_dir():
                 dir_name = Path(value).name
