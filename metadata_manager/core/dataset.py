@@ -391,7 +391,7 @@ class Dataset(object):
         metadata = self._dataset.get(category).get("metadata")
 
         if not isinstance(row_index, int):
-            msg = "Value error. Row index should be int."
+            msg = "row_index should be 'int'."
             raise ValueError(msg)
 
         try:
