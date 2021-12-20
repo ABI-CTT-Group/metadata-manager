@@ -4,13 +4,17 @@ from pathlib import Path
 from distutils.dir_util import copy_tree
 
 import pandas as pd
+from styleframe import StyleFrame
 from xlrd import XLRDError
 
 
 class Dataset(object):
     def __init__(self):
-        self._version = None
-        self._template_version = "2.0.0"  # default
+        DEFAULT_DATASET_VERSION = "2.0.0"
+        EXTENSIONS = [".xlsx"]
+
+        self._template_version = DEFAULT_DATASET_VERSION
+        self._version = DEFAULT_DATASET_VERSION
         self._current_path = Path(__file__).parent.resolve()
         self._resources_path = Path.joinpath(self._current_path, "../resources")
         self._template_dir = Path()
@@ -18,7 +22,7 @@ class Dataset(object):
 
         self._dataset_path = Path()
         self._dataset = dict()
-        self._metadata_extensions = [".xlsx"]
+        self._metadata_extensions = EXTENSIONS
 
     def set_dataset_path(self, path):
         """
@@ -184,6 +188,9 @@ class Dataset(object):
         :return: loaded dataset
         :rtype: dict
         """
+        if version:
+            self.set_version(version)
+
         if from_template:
             self._dataset = self.load_from_template(version=version)
         else:
@@ -218,12 +225,17 @@ class Dataset(object):
                     data = self._filter(data, filename)
 
                 if isinstance(data, pd.DataFrame):
-                    data.to_excel(Path.joinpath(save_dir, filename), index=False)
+                    self.set_version(self._version)
+                    template_dir = self._get_template_dir(self._version)
+                    sf = StyleFrame.read_excel_as_template(str(template_dir / filename), data)
+                    writer = StyleFrame.ExcelWriter(Path.joinpath(save_dir, filename))
+                    sf.to_excel(writer)
+                    writer.save()
 
             elif Path(value).is_dir():
                 dir_name = Path(value).name
                 dir_path = Path.joinpath(save_dir, dir_name)
-                copy_tree(str(value), str(dir_path))
+                copy_tree(str(value), str(dir_path), update=1)
 
             elif Path(value).is_file():
                 filename = Path(value).name
@@ -360,14 +372,14 @@ class Dataset(object):
 
         return fields
 
-    def set_field(self, category, element, header, value):
+    def set_field(self, category, row_index, header, value):
         """
         Set single field by row idx/name and column name (the header)
 
         :param category: metadata category
         :type category: string
-        :param element: row index or name, uni-identifier for the row. can be an integer (the index of a row) or a string (in this case, the first column will be the index)
-        :type element: int or string
+        :param row_index: row index in Excel. Excel index starts from 1 where index 1 is the header row. so actual data index starts from 2
+        :type row_index: int
         :param header: column name. the header is the first row
         :type header: string
         :param value: field value
@@ -381,15 +393,14 @@ class Dataset(object):
 
         metadata = self._dataset.get(category).get("metadata")
 
-        if isinstance(element, int):
-            element = str(element)
-        if isinstance(element, str):
-            # set the first column as the index column
-            metadata = metadata.set_index(list(metadata)[0])
+        if not isinstance(row_index, int):
+            msg = "row_index should be 'int'."
+            raise ValueError(msg)
 
         try:
-            metadata.at[element, header] = value
-            metadata = metadata.reset_index()
+            # Convert Excel row index to dataframe index: index - 2
+            row_index = row_index - 2
+            metadata.loc[row_index, header] = value
         except ValueError:
             msg = "Value error. row does not exists."
             raise ValueError(msg)

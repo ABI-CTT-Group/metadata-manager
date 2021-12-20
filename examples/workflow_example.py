@@ -83,8 +83,8 @@ class Workflow(object):
 
         self._metadata_dataset.load_dataset(metadata_dir)
 
-        self._metadata_dataset.set_field("dataset_description", element="Metadata Version", header="Value", value="2.0.0")
-        self._metadata_dataset.set_field("dataset_description", element="    Title", header="Value", value="Test Project")
+        self._metadata_dataset.set_field("dataset_description", row_index=2, header="Value", value="2.0.0")
+        self._metadata_dataset.set_field("dataset_description", row_index=5, header="Value", value="Test Project")
         self._metadata_dataset.save(metadata_dir)
 
     def import_script(self, script_path, code_description=dict()):
